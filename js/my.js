@@ -1,10 +1,30 @@
+//UI LOGIC
+
 $(document).ready(function(){
   $("form#inception").submit(function(event){
     event.preventDefault();
-    var number = $("#number").val();
-    romanNumeralConversion(number);
+    var number = parseInt($("#number").val());
+    var validation = validate(number)
+    if (validation === true) {
+      var result = romanNumeralConversion(number);
+      $("#romanNumeralResult").text(result);
+    } else {
+      $("#romanNumeralResult").text("do you even though?");
+    }
+
+
   });
 });
+
+//BUSINESS LOGIC
+
+var numberPlaceFunction = function(numberPlace, numberArray, repository){
+  for (var i = 0; i <= numberPlace; i += 1){
+    if (i === numberPlace) {
+      repository.push(numberArray[(i-1)]);
+    }
+  }
+}
 
 var romanNumeralConversion = function(enteredNumber){
   //SPLIT NUMBER INTO AN ARRAY OF DIGITS
@@ -31,43 +51,19 @@ var romanNumeralConversion = function(enteredNumber){
   var hundredsPlace = parsedReversedSplitNumber[2];
   var thousandsPlace = parsedReversedSplitNumber[3];
 
-  for (var i = 0; i <= thousandsPlace; i += 1){
-    if (i === thousandsPlace) {
-      numeralArray.push(thousandsArray[(i-1)]);
-      alert(numeralArray);
-    }
-  }
-
-  for (var i = 0; i <= hundredsPlace; i += 1){
-    if (i === hundredsPlace) {
-      numeralArray.push(hundredsArray[(i-1)]);
-      alert(numeralArray);
-    }
-  }
-
-  for (var i = 0; i <= tensPlace; i += 1){
-    if (i === tensPlace) {
-      numeralArray.push(tensArray[(i-1)]);
-      alert(numeralArray);
-    }
-  }
-
-  for (var i = 0; i <= onesPlace; i += 1){
-    if (i === onesPlace) {
-      numeralArray.push(onesArray[(i-1)]);
-      alert(numeralArray);
-    }
-  }
+  numberPlaceFunction(thousandsPlace, thousandsArray, numeralArray);
+  numberPlaceFunction(hundredsPlace, hundredsArray, numeralArray);
+  numberPlaceFunction(tensPlace, tensArray, numeralArray);
+  numberPlaceFunction(onesPlace, onesArray, numeralArray);
 
   var joinedNumerals = numeralArray.join("");
-  alert(joinedNumerals);
+  return joinedNumerals;
 }
-/*
-    if(hundredsPlace === 9){
-      numeralArray.push(hundredsArray[8]);
-      alert(numeralArray)
-    } else if (hundredsPlace === 8){
-      nummberArray.push("")
-    }
+
+var validate = function(numToBeValidated){
+  if (numToBeValidated / numToBeValidated === 1 && numToBeValidated !== null && numToBeValidated < 4000) {
+    return true;
+  } else {
+    return false;
+  }
 }
-*/
