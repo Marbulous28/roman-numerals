@@ -6,6 +6,7 @@ $(document).ready(function(){
     var number = parseInt($("#number").val());
     var validation = validate(number)
     if (validation === true) {
+      number = String(number);
       var result = romanNumeralConversion(number);
       $("#romanNumeralResult").text(result);
     } else {
